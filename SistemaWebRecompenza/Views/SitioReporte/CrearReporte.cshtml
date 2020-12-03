@@ -1,0 +1,107 @@
+@{
+    ViewData["Title"] = "Crear";
+}
+<html>
+<head>
+    <title>Lista de Reportes</title>
+    <style>
+        
+        .lean-overlay {
+          z-index: 99!important;
+        }
+        
+        #modal1 {
+              z-index: 100!important;
+        }
+    </style>
+</head>
+<body>
+<h1>Crear Reporte</h1>
+<form action="/SitioReporte/CrearReporteA" method="post" enctype="multipart/form-data">
+    <label>Nombre</label>
+    <input name="Nombre" required=""/>
+    <label>Fecha de la perdida</label>
+    <input name="Fecha" required="" type="date"/>
+    
+
+    <!-- Modal Structure -->
+
+    <label>Tipo</label>
+    <select name="Tipo">
+        <option name="">--Elija la categoria--</option>
+        @foreach (var item in ViewBag.tipo)
+        {
+            <option value="@item.Id"> @item.Nombre</option>
+        }
+    </select>
+
+    <label>Descripcion</label>
+    <textarea name="Descripcion"></textarea>
+    
+    <label>Nombre del objeto</label>
+    <input name="NombreObjeto" required=""/>
+    <label>Recompenza</label>
+    <input name="Recompenza" required=""/>
+    <div class="form-group">
+        Imagen
+        <input type="file" name="Imagen"/>
+
+    </div>
+
+    <button>Guardar</button>
+</form>
+<input type="text" id="event-address-val" style="width: 300px" />
+    
+    
+    <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Ubicacion</a>
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>Modal Header</h4>
+
+        <input type="text" id="event-address" style="width: 300px"/>
+
+        <div id="location-picker-map" style="width: 500px; height: 400px;"></div>
+
+        <input class="hide" type="text" id="event-lat"/><input class="hide" type="text" id="event-lon"/>
+
+
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+</body>
+<script>
+
+
+
+$('.modal-trigger').leanModal({
+  ready: function() {
+    $('#location-picker-map').locationpicker('autosize');
+  }
+});
+
+
+
+$('#location-picker-map').locationpicker({
+enableAutocomplete: true,
+    enableReverseGeocode: true,
+  radius: 0,
+  inputBinding: {
+    latitudeInput: $('#event-lat'),
+    longitudeInput: $('#event-lon'),
+    locationNameInput: $('#event-address')
+  },
+  onchanged: function (currentLocation, radius, isMarkerDropped) {
+        var addressComponents = $(this).locationpicker('map').location.addressComponents;
+    console.log($(this).locationpicker('map').location);  //latlon  
+    updateControls(addressComponents); //Data
+    }
+});
+
+function updateControls(addressComponents) {
+  $('#event-address-val').val(addressComponents.formattedAddress);
+  console.log(addressComponents);
+}
+</script>
+</html>

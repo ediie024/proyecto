@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Lista de Reportes</title>
+</head>
+<body>
+<form >
+    <input type="text" placeholder="Buscar Objeto" name="busqueda" autocomplete="off"/>
+
+</form>
+<div class="container">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Reportes</h2>
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
+                <!-- Carousel indicators -->
+
+                <!-- Wrapper for carousel items -->
+                <div class="carousel-inner">
+                    <div class="item carousel-item active">
+                        <div class="row">
+                            @foreach (var item in @ViewBag.IdReportes)
+                            {
+                                <div class="col-sm-3 text-center my-5">
+                                    <div class="thumb-wrapper">
+                                        <div class="img-box">
+
+                                            <a >
+                                                <img height="100" style="border: 1px solid; color: black" src="@ViewBag.DiccionarioObjetos[@ViewBag.DiccionarioReporte[item].IdObjeto].Imagen" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="thumb-content">
+                                        <h3>@ViewBag.DiccionarioReporte[item].Nombre</h3>
+                                            
+                                            <h6><strong>Categorias:</strong><br> @foreach(var item1 in @ViewBag.DetalleObjetoCategoria){
+                                                              if (@ViewBag.DiccionarioObjetos[@ViewBag.DiccionarioReporte[item].IdObjeto].Id==@item1.IdObjeto)
+                                                              {
+                                                                 
+                                                                      @ViewBag.DiccionarioCategoria[item1.IdCategoria].Nombre @ViewBag.Espacio
+
+                                                              }
+                                                          }</h6>
+                                            <h6>
+                                                <strong>Descripcion: </strong><br>@ViewBag.DiccionarioReporte[item].Descripcion
+                                            </h6>
+                                            <br>
+                                            <h9><strong>Fecha Publicacion: </strong><br>@ViewBag.DiccionarioReporte[item].Fecha </h9>
+                                            <br>
+                                            <h9><strong>Recompenza: </strong><br>@ViewBag.DiccionarioReporte[item].Recompenza soles</h9>
+                                            <br>
+                                            <button class="enlace" role="link" onclick="window.location='https://www.google.com/maps/place/Cajamarca/@@-7.160593,-78.5217119,14z/data=!3m1!4b1!4m5!3m4!1s0x91b25afd3fc7d087:0xea80a2b94d876b2b!8m2!3d-7.1617465!4d-78.5127855'">Ultima ubicacion</button>
+                                            <button class="enlace" role="link" onclick="window.location='https://www.google.com/maps/place/Cajamarca/@@-7.160593,-78.5217119,14z/data=!3m1!4b1!4m5!3m4!1s0x91b25afd3fc7d087:0xea80a2b94d876b2b!8m2!3d-7.1617465!4d-78.5127855'">Contactar</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
